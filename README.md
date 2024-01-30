@@ -12,5 +12,5 @@
 ### 1- Download the repository
 ### 2- Open the terminal in the repo directory
 ### 3- execute the command (gcc femto_shell.c -o <name.exe>) where name.exe is the executable file name which is of your choice
-### 4- Run the executable using the following command: ./<name.exe>
+### 4- Run the executable using the following command: ./<name.exe> 
 
