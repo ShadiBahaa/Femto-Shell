@@ -1,4 +1,4 @@
-# Femto Shell
+# Femto Shell (version 1)
 ## Description:
 ### A simulation for the bash shell. Currently the shell is able to execute exit command and prints the other commands as they are.
 ## Features:
