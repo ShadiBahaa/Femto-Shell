@@ -46,6 +46,7 @@ int main(void){
             break;
         }else {
             printf("Wrong! Try again : ");
+            shell_type = getchar();
         }
     }
     getchar();
