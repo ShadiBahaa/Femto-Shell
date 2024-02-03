@@ -8,6 +8,7 @@
 ## Structure:
 ### 1- src directory : contains all C source files (shell C file, commands implementations files)
 ### 2- include directory : contains header files (utilities, commands headers, and shell header)
+### 3- Makefile: responsible for building the project and outputing the executable file
 ## How to run:
 ### 1- Download the repository.
 ### 2- Open the terminal in the repo directory.
