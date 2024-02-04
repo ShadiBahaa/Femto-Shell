@@ -1,6 +1,6 @@
-# Femto Shell (version 2)
+# Femto Shell (version 3)
 ## Description:
-### A simulation for the bash shell. Currently the shell is able to execute the following command: exit, pwd, cd, cp, mv, echo, and cat commands. It prints error if other commands are entered. All commands are implemented from scratch.
+### A simulation for the bash shell. Currently the shell is able to execute the following commands some of internal commands and all external commands. It prints error if other commands are entered. All commands are implemented from scratch.
 ## Features:
 ### 1- You can choose between two formats of shell: Formal one (Which is similar to the real one: shows the current path and waits for the command), and Informal one (Where the path is replaced with jokes that are selected randomly)
 ### 2- Executes the exit, pwd, cd, cp, mv, echo, and cat commands. (with high ability to recognize differnt tokens and arguments)
