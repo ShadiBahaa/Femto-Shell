@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
+#include <sys/wait.h>
 #include "../include/utilities.h"
 #include "../include/femto_shell.h"
 #include "../include/commands_headers.h"
@@ -118,7 +119,23 @@ void execute_command(void)
     }
     if (!chosen)
     {
-        printf("No such command\n");
+         pid_t fork_return =  fork();
+         if (fork_return == FAILED_FORK){
+            perror("Fork error: ");
+         }else if (fork_return == FORK_CHILD){
+            string_t argv[TOCKENS_COUNT];
+            iterator_t argv_iterator = 0;
+            while (tokens[argv_iterator][0]!=NULL_TERMINATOR)
+            {
+                argv[argv_iterator] = strdup(tokens[argv_iterator]);
+                argv_iterator++;
+            }
+            argv[argv_iterator] = NULL;
+            execvp(argv[0],argv);
+            perror("Execvp error: ");
+         }else {
+            wait(NULL);
+         }
     }
 }
 int main(void)
