@@ -21,8 +21,8 @@ string_t jokes[JOKES_COUNT] = {
 
 };
 string_t commands[COMMANDS_COUNT] = {
-    "exit", "cd", "echo", "pwd", 
-//"mv", "cp", "cat"
+    "exit", "cd", "echo", "pwd"
+// , "mv", "cp", "cat"
 };
 
 command_handler_t command_handlers[COMMANDS_COUNT];
