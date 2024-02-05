@@ -1,6 +1,6 @@
 # Femto Shell (version 3)
 ## Description:
-### A simulation for the bash shell. Some commands are implemented from scratch (exit, pwd, cd, cp, mv, echo, and cat) and the other external commands are executed using execvp system call. 
+### A simulation for the bash shell. Some commands are implemented from scratch (pwd, cd, echo, and exit) and the other external commands are executed using execvp system call. 
 ## Features:
 ### 1- You can choose between two formats of shell: Formal one (Which is similar to the real one: shows the current path and waits for the command), and Informal one (Where the path is replaced with jokes that are selected randomly)
 ### 2- Executes all external commands and some of internal commands. (with high ability to recognize differnt tokens ,arguments and delimeters)
