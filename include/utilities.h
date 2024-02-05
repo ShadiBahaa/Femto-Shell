@@ -18,7 +18,7 @@
 #define NEW_LINE '\n'
 #define EXIT_COMMAND "exit"
 #define RETURN_STATUS 0
-#define COMMANDS_COUNT 7
+#define COMMANDS_COUNT 4
 #define SUCCESSFUL_CD 0
 #define SUCCESSFUL_SET_ENV 0
 #define SYSTEM_FAILED -1
