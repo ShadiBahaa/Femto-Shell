@@ -21,7 +21,9 @@ string_t jokes[JOKES_COUNT] = {
 
 };
 string_t commands[COMMANDS_COUNT] = {
-    "exit", "cd", "echo", "pwd", "mv", "cp", "cat"};
+    "exit", "cd", "echo", "pwd", 
+//"mv", "cp", "cat"
+};
 
 command_handler_t command_handlers[COMMANDS_COUNT];
 
@@ -33,9 +35,9 @@ void set_commands_handlers(void)
     command_handlers[1] = execute_cd;
     command_handlers[2] = execute_echo;
     command_handlers[3] = execute_pwd;
-    command_handlers[4] = execute_move;
-    command_handlers[5] = execute_copy;
-    command_handlers[6] = execute_cat;
+    // command_handlers[4] = execute_move;
+    // command_handlers[5] = execute_copy;
+    // command_handlers[6] = execute_cat;
 }
 
 void get_joke_prompt(void)
