@@ -7,7 +7,7 @@
 #include "../include/mycd.h"
 
 extern size_t argc;
-extern uint8_t tokens[TOCKENS_COUNT][COMMAND_SIZE];
+extern string_t * tokens;
 extern shell_t shell_type;
 extern uint8_t prompt[PROMPT_SIZE];
 

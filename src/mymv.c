@@ -9,7 +9,7 @@
 #include "../include/mymv.h"
 
 extern size_t argc;
-extern uint8_t tokens[TOCKENS_COUNT][COMMAND_SIZE];
+extern string_t * tokens;
 
 void execute_move(void)
 {
@@ -30,14 +30,12 @@ void execute_move(void)
     uint8_t buffer[READ_BUFFER_SIZE];
     while ((read_bytes = read(src_fd, &buffer, READ_BUFFER_SIZE)) != 0)
     {
-        printf("Read : %d\n", read_bytes);
         if (read_bytes < 0)
         {
             perror("Reading src file error: ");
             return;
         }
         written_bytes = write(des_fd, buffer, read_bytes);
-        printf("Write : %d\n", written_bytes);
         if (written_bytes < 0)
         {
             perror("Writing dest file error: ");

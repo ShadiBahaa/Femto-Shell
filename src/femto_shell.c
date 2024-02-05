@@ -11,7 +11,7 @@
 shell_t shell_type;
 uint8_t prompt[PROMPT_SIZE];
 uint8_t command[COMMAND_SIZE];
-uint8_t tokens[TOCKENS_COUNT][COMMAND_SIZE];
+string_t *tokens = NULL;
 
 string_t jokes[JOKES_COUNT] = {
     "A3tiny command",
@@ -63,6 +63,8 @@ void parse_command(void)
         if (is_space)
         {
             tmp[tmp_iterator] = NULL_TERMINATOR;
+            tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
+            tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE);
             strcpy(tokens[tokens_iterator], tmp);
             argc++;
             if (strcmp(tmp, "echo") == IDENTICAL)
@@ -77,10 +79,13 @@ void parse_command(void)
                     ++tmp_iterator;
                 }
                 tmp[tmp_iterator] = NULL_TERMINATOR;
+                tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
+                tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE);
                 strcpy(tokens[tokens_iterator], tmp);
                 argc++;
                 ++tokens_iterator;
-                memset(tokens[tokens_iterator], NULL_TERMINATOR, COMMAND_SIZE);
+                tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
+                tokens[tokens_iterator] = NULL;
                 return;
             }
             tmp_iterator = 0;
@@ -98,11 +103,14 @@ void parse_command(void)
     if (tmp[0] != NULL_TERMINATOR)
     {
         tmp[tmp_iterator] = NULL_TERMINATOR;
+        tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
+        tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE);
         strcpy(tokens[tokens_iterator], tmp);
         argc++;
         tokens_iterator++;
     }
-    memset(tokens[tokens_iterator], NULL_TERMINATOR, COMMAND_SIZE);
+    tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
+    tokens[tokens_iterator] = NULL;
 }
 void execute_command(void)
 {
@@ -119,24 +127,32 @@ void execute_command(void)
     }
     if (!chosen)
     {
-         pid_t fork_return =  fork();
-         if (fork_return == FAILED_FORK){
+        pid_t fork_return = fork();
+        if (fork_return == FAILED_FORK)
+        {
             perror("Fork error: ");
-         }else if (fork_return == FORK_CHILD){
-            string_t argv[TOCKENS_COUNT];
-            iterator_t argv_iterator = 0;
-            while (tokens[argv_iterator][0]!=NULL_TERMINATOR)
-            {
-                argv[argv_iterator] = strdup(tokens[argv_iterator]);
-                argv_iterator++;
-            }
-            argv[argv_iterator] = NULL;
-            execvp(argv[0],argv);
+        }
+        else if (fork_return == FORK_CHILD)
+        {
+            execvp(tokens[0], tokens);
             perror("Execvp error: ");
-         }else {
+        }
+        else
+        {
             wait(NULL);
-         }
+        }
     }
+    iterator_t argv_iterator;
+    for (argv_iterator = 0; argv_iterator < argc; ++argv_iterator)
+    {
+        if (tokens[argv_iterator] != NULL)
+        {
+            free(tokens[argv_iterator]);
+            tokens[argv_iterator] = NULL;
+        }
+    }
+    free(tokens);
+    tokens = NULL;
 }
 int main(void)
 {

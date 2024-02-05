@@ -7,7 +7,7 @@
 #include "../include/mycp.h"
 
 extern size_t argc;
-extern uint8_t tokens[TOCKENS_COUNT][COMMAND_SIZE];
+extern string_t * tokens;
 
 void execute_copy(void){
     int fd_src, fd_des, num_read, num_write;
