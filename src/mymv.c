@@ -26,6 +26,11 @@ void execute_move(void)
         return;
     }
     des_fd = open(tokens[2], O_WRONLY | O_TRUNC | O_CREAT, 0644);
+    if (des_fd == FILE_OPEN_ERROR)
+    {
+        perror("Open Dest File error: ");
+        return;
+    }
     ssize_t read_bytes, written_bytes;
     uint8_t buffer[READ_BUFFER_SIZE];
     while ((read_bytes = read(src_fd, &buffer, READ_BUFFER_SIZE)) != 0)
