@@ -6,6 +6,7 @@
 ### 2- Executes external commands and some of internal commands. (with high ability to recognize spaces that are not part of the command)
 ### 3- Handles all system calls and libraries errors and handles also any mistyping by the user or misuse which occurs as a result of passing wrong arguments.
 ### 4- You can execute a set of external commands with limited functionalities (mv, cp, and cat) without execvp by setting TRY_EXTERNAL_COMMANDS_WITHOUT_EXECVP to 1 in  utilities.h.
+### 5- You can execute any input/output redirection (>,>>,<,2>).
 ## Structure:
 ### 1- src directory : contains all C source files (shell C file, commands implementations files)
 ### 2- include directory : contains header files (utilities, commands headers, and shell header)
