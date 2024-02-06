@@ -26,6 +26,8 @@
 #define READ_BUFFER_SIZE 100
 #define SUCCESSFUL_REMOVE 0
 #define SUCCESSFUL_CLOSE 0
+#define FAILED_FORK -1
+#define FORK_CHILD 0
 
 typedef unsigned char uint8_t;
 typedef unsigned char shell_t;
