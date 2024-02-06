@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -O2
+CFLAGS = -Wall -O2 -g
 SRC_DIR = src
 OBJ_DIR = obj
 OUTPUT_DIR = output
