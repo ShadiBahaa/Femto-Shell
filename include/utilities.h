@@ -29,12 +29,16 @@
 #define FAILED_FORK -1
 #define FORK_CHILD 0
 #define TRY_EXTERNAL_COMMANDS_WITHOUT_EXECVP 0
+#define REDIRECTIONS_COUNT 4
+#define DUP_ERROR -1
 
 typedef unsigned char uint8_t;
 typedef unsigned char shell_t;
 typedef signed int iterator_t;
 typedef unsigned char *string_t;
 typedef unsigned char boolean_t;
-
+typedef signed long int file_descriptor_t;
+typedef signed long int flag_t;
+typedef void (*command_handler_t)(void);
 
 #endif
