@@ -3,7 +3,7 @@
 ### A simulation for the bash shell. Some commands are implemented from scratch (pwd, cd, echo, and exit) and the other external commands are executed using execvp system call. 
 ## Features:
 ### 1- You can choose between two formats of shell: Formal one (Which is similar to the real one: shows the current path and waits for the command), and Informal one (Where the path is replaced with jokes that are selected randomly)
-### 2- Executes all external commands and some of internal commands. (with high ability to recognize differnt tokens ,arguments and delimeters)
+### 2- Executes all external commands and some of internal commands. (with high ability to recognize spaces that are not part of the command)
 ### 3- Handles all system calls and libraries errors and handles also any mistyping by the user or misuse which occurs as a result of passing wrong arguments.
 ## Structure:
 ### 1- src directory : contains all C source files (shell C file, commands implementations files)
