@@ -28,6 +28,7 @@
 #define SUCCESSFUL_CLOSE 0
 #define FAILED_FORK -1
 #define FORK_CHILD 0
+#define TRY_EXTERNAL_COMMANDS_WITHOUT_EXECVP 0
 
 typedef unsigned char uint8_t;
 typedef unsigned char shell_t;
