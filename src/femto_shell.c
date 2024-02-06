@@ -20,9 +20,19 @@ string_t jokes[JOKES_COUNT] = {
     "Fakar abl ma tktb abos eidk"
 
 };
+
+#if TRY_EXTERNAL_COMMANDS_WITHOUT_EXECVP == 1
+#define COMMANDS_COUNT 7
+#else
+#define COMMANDS_COUNT 4
+#endif
+
 string_t commands[COMMANDS_COUNT] = {
     "exit", "cd", "echo", "pwd"
-// , "mv", "cp", "cat"
+#if TRY_EXTERNAL_COMMANDS_WITHOUT_EXECVP == 1
+    ,
+    "mv", "cp", "cat"
+#endif
 };
 
 command_handler_t command_handlers[COMMANDS_COUNT];
@@ -35,9 +45,11 @@ void set_commands_handlers(void)
     command_handlers[1] = execute_cd;
     command_handlers[2] = execute_echo;
     command_handlers[3] = execute_pwd;
-    // command_handlers[4] = execute_move;
-    // command_handlers[5] = execute_copy;
-    // command_handlers[6] = execute_cat;
+#if TRY_EXTERNAL_COMMANDS_WITHOUT_EXECVP == 1
+    command_handlers[4] = execute_move;
+    command_handlers[5] = execute_copy;
+    command_handlers[6] = execute_cat;
+#endif
 }
 
 void get_joke_prompt(void)
@@ -65,8 +77,16 @@ void parse_command(void)
         if (is_space)
         {
             tmp[tmp_iterator] = NULL_TERMINATOR;
-            tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
-            tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE);
+            if ((tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t))) == NULL)
+            {
+                perror("Realloc error: ");
+                exit(-1);
+            }
+            if ((tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE)) == NULL)
+            {
+                perror("malloc error: ");
+                exit(-1);
+            }
             strcpy(tokens[tokens_iterator], tmp);
             argc++;
             if (strcmp(tmp, "echo") == IDENTICAL)
@@ -81,12 +101,29 @@ void parse_command(void)
                     ++tmp_iterator;
                 }
                 tmp[tmp_iterator] = NULL_TERMINATOR;
-                tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
-                tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE);
+                if ((tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t))) == NULL)
+                {
+                    perror("Realloc error: ");
+                    exit(-1);
+                }
+                if ((tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE)) == NULL)
+                {
+                    perror("malloc error: ");
+                    exit(-1);
+                }
                 strcpy(tokens[tokens_iterator], tmp);
                 argc++;
                 ++tokens_iterator;
-                tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
+                if ((tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t))) == NULL)
+                {
+                    perror("Realloc error: ");
+                    exit(-1);
+                }
+                if ((tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE)) == NULL)
+                {
+                    perror("malloc error: ");
+                    exit(-1);
+                }
                 tokens[tokens_iterator] = NULL;
                 return;
             }
@@ -105,13 +142,26 @@ void parse_command(void)
     if (tmp[0] != NULL_TERMINATOR)
     {
         tmp[tmp_iterator] = NULL_TERMINATOR;
-        tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
-        tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE);
+        if ((tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t))) == NULL)
+        {
+            perror("Realloc error: ");
+            exit(-1);
+        }
+        if ((tokens[tokens_iterator] = (string_t)malloc(sizeof(uint8_t) * COMMAND_SIZE)) == NULL)
+        {
+            perror("malloc error: ");
+            exit(-1);
+        }
         strcpy(tokens[tokens_iterator], tmp);
         argc++;
         tokens_iterator++;
     }
-    tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t));
+    if ((tokens = (string_t *)realloc(tokens, (tokens_iterator + 1) * sizeof(string_t))) == NULL)
+    {
+        perror("Realloc error: ");
+        exit(-1);
+    }
+
     tokens[tokens_iterator] = NULL;
 }
 void execute_command(void)
@@ -133,11 +183,13 @@ void execute_command(void)
         if (fork_return == FAILED_FORK)
         {
             perror("Fork error: ");
+            exit(-1);
         }
         else if (fork_return == FORK_CHILD)
         {
             execvp(tokens[0], tokens);
             perror("Execvp error: ");
+            exit(-1);
         }
         else
         {
@@ -159,13 +211,25 @@ void execute_command(void)
 int main(void)
 {
     set_commands_handlers();
-    printf("Choose your shell type: (A for formal B for informal) : ");
-    shell_type = getchar();
+    if (printf("Choose your shell type: (A for formal B for informal) : ") < 0)
+    {
+        perror("printf error :");
+        exit(-1);
+    }
+    if ((shell_type = getchar()) == EOF)
+    {
+        perror("getchar error: ");
+        exit(-1);
+    }
     while (true)
     {
         if (shell_type == FORMAL_PROMPT)
         {
-            getcwd(prompt, PROMPT_SIZE);
+            if (getcwd(prompt, PROMPT_SIZE) == NULL)
+            {
+                perror("getcwd error: ");
+                exit(-1);
+            }
             break;
         }
         else if (shell_type == INFORMAL_PROMPT)
@@ -176,17 +240,41 @@ int main(void)
         else
         {
             printf("Wrong! Try again : ");
-            shell_type = getchar();
+            if ((shell_type = getchar()) == EOF)
+            {
+                perror("getchar error: ");
+                exit(-1);
+            }
         }
     }
-    getchar();
+    if (getchar() == EOF)
+    {
+        perror("getchar error: ");
+        exit(-1);
+    }
     while (true)
     {
         argc = 0;
-        printf("%s", prompt);
-        printf("%s", PROMPT_STRING);
-        fflush(stdout);
-        fgets(command, COMMAND_SIZE, stdin);
+        if (printf("%s", prompt) < 0)
+        {
+            perror("printf error: ");
+            exit(-1);
+        }
+        if (printf("%s", PROMPT_STRING) < 0)
+        {
+            perror("printf error: ");
+            exit(-1);
+        }
+        if (fflush(stdout) == EOF)
+        {
+            perror("fflush error :");
+            exit(-1);
+        }
+        if (fgets(command, COMMAND_SIZE, stdin) == NULL)
+        {
+            perror("fgets error : ");
+            exit(-1);
+        }
         parse_command();
         execute_command();
     }
