@@ -8,8 +8,8 @@
 ### 4- You can execute a set of external commands with limited functionalities (mv, cp, and cat) without execvp by setting TRY_EXTERNAL_COMMANDS_WITHOUT_EXECVP to 1 in  utilities.h.
 ### 5- You can execute any input/output redirection (>,>>,<,2>).
 ## Structure:
-### 1- src directory : contains all C source files (shell C file, commands implementations files)
-### 2- include directory : contains header files (utilities, commands headers, and shell header)
+### 1- src directory : contains all C source files (shell C files, commands implementations files)
+### 2- include directory : contains header files (utilities, commands headers, and shell headers)
 ### 3- Makefile: responsible for building the project and outputing the executable file
 ## How to run:
 ### 1- Download the repository.
