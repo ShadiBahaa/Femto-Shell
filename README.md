@@ -1,6 +1,6 @@
 # Femto Shell (version 3)
 ## Description:
-### A simulation for the bash shell. Some commands are implemented from scratch (pwd, cd, echo, and exit) and the other external commands are executed using execvp system call. (command size is limited to the configured parameter COMMAND_SIZE in utilities.h)
+### A simulation for the bash shell. Some commands are implemented from scratch (pwd, cd, echo, and exit) and the external commands are executed using execvp system call. (command size is limited to the configured parameter COMMAND_SIZE in utilities.h)
 ## Features:
 ### 1- You can choose between two formats of shell: Formal one (Which is similar to the real one: shows the current path and waits for the command), and Informal one (Where the path is replaced with jokes that are selected randomly)
 ### 2- Executes external commands and some of internal commands. (with high ability to recognize spaces that are not part of the command)
